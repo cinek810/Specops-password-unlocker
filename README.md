@@ -5,7 +5,7 @@ This repository contains a code you can use for automation of account unlock ove
 If you want to read more about how it works, check my following blog scripts:  
 https://funinit.wordpress.com/2017/10/03/asp-net-web-form-as-api/
 
-##How to use the script?
+## How to use the script?
 
 Clone the repository:
 ```
@@ -20,8 +20,8 @@ and run the script to unlock your account:
 python2.7 ./AccountUnlock.py
 ```
 
-##Note on Java version
+## Note on Java version
 Repository contaions also .java version, however, the code is currently unclean. It neither make final "unlock" call nor supports configuration file. 
 
-##Changelog
+## Changelog
 First working version in python - supports only unlock scenario where 1st page is a form for netid and domain selection and then three security are asked. 
