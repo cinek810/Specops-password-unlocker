@@ -3,7 +3,8 @@
 This repository contains a code you can use for automation of account unlock over AD Self Service Password Reset utility. If supported scenario doesn't work in your environment and you'd like to use the script feel free to open the pull or feature request. 
 
 If you want to read more about how it works, check my following blog scripts:  
-https://funinit.wordpress.com/2017/10/03/asp-net-web-form-as-api/
+https://funinit.wordpress.com/2018/03/11/automated-account-unlock-over-specops-self-password-reset-web-interface/
+https://funinit.wordpress.com/2017/10/03/asp-net-web-form-as-api/  
 
 ## How to use the script?
 
