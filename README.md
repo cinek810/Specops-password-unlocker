@@ -14,6 +14,7 @@ git clone https://github.com/cinek810/Specops-password-unlocker.git
 ```
 Update configuretion file
 ```
+cp etc/specops-unlock.conf{.sample,}
 vim etc/specops-unlock.conf
 ```
 and run the script to unlock your account:
@@ -25,5 +26,7 @@ python2.7 ./AccountUnlock.py
 Repository contaions also .java version, however, the code is currently unclean. It neither make final "unlock" call nor supports configuration file. 
 
 ## Changelog
+### 17-03-2017
+Use logging instead of prints in python version. Added loglevel and logfile options to configuration. Now it's prepared to run from cron.
 ### 11-03-2017
 First working version in python - supports only unlock scenario where 1st page is a form for netid and domain selection and then three security are asked. 

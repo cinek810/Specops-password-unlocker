@@ -6,6 +6,7 @@ import urllib
 from bs4 import BeautifulSoup
 import json
 import sys
+import logging
 
 
 class AccountUnlock:
@@ -22,13 +23,13 @@ class AccountUnlock:
         def __get_first_page(self):
                 r=self.s.get(self.url)
                 pars = BeautifulSoup(r.text,"html.parser")
-                print r.text
+                logging.debug("Got 1st page:"+r.text)
                 try:
                         self.viewState=pars.find('input',{'id': '__VIEWSTATE'}).get('value')
                         self.eventValidation=pars.find('input',{'id': '__EVENTVALIDATION'}).get('value')
                 except AttributeError:
-                        print("__get_first_page: Incorrect response")
-                        print("Response:"+r.text)
+                        logging.error("__get_first_page: Incorrect response")
+                        logging.debug("Response:"+r.text)
                         sys.exit(1)
                 self.html=r.text
                 self.status=r.status_code
@@ -38,7 +39,7 @@ class AccountUnlock:
                 data["__VIEWSTATE"]=self.viewState
                 data["__EVENTVALIDATION"]=self.eventValidation
                 data["__ASYNCPOST"]="false"
-                print json.dumps(data,indent=4)
+                logging.debug("Sending data:"+json.dumps(data,indent=4))
                               
               #  Debug output of request    
               #  r=requests.Request('POST',self.url,data=urllib.urlencode(data),headers=headers)
@@ -58,7 +59,7 @@ class AccountUnlock:
                         self.viewState=pars.find('input',{'id': '__VIEWSTATE'}).get('value')
                         self.eventValidation=pars.find('input',{'id': '__EVENTVALIDATION'}).get('value')
                 except AttributeError:
-                        print("__send_reply: Incorrect response. Response was:"+r.text)
+                        logging.error("__send_reply: Incorrect response. Response was:"+r.text)
                         sys.exit(1)
 
         def __send_user_domain(self):
@@ -82,7 +83,7 @@ class AccountUnlock:
                 try:
                         unlock=pars.find('input',{'name': 'ctl00$ContentPlaceHolder1$ResetWizard$UnlockMethodList'}).get('value')
                         if unlock=="1":
-                                print("Unlocking") 
+                                logging.info("Account was locked - sending unlock requests") 
                                 data={}
                                 data["ctl00$ContentPlaceHolder1$ResetWizard$StepNavigationTemplateContainerID$StepNextButton"]="Dalej"
                                 data["ctl00$ContentPlaceHolder1$ResetWizard$UnlockMethodList"]="2"
@@ -94,7 +95,7 @@ class AccountUnlock:
                                 self.__send_reply(data)
                                
                 except  AttributeError:
-                        print("Not locked")
+                        logging.info("Not locked")
                 
 
         def run(self):
@@ -116,6 +117,9 @@ if __name__=="__main__":
         import configparser
         config=configparser.ConfigParser()
         config.read('./etc/specops-unlock.conf')
+
+	logging.basicConfig(name="Specops-account-unlock",filename=config['main']['logfile'], level=getattr(logging,config['main']['loglevel'].upper()),format='%(asctime)s - %(filename)s - %(process)d - %(levelname)s - %(message)s')
+
 
         unlocker=AccountUnlock(config)
         unlocker.run()

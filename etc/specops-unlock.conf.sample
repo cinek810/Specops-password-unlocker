@@ -1,5 +1,7 @@
 [main]
 url=https://yourspecops.instance.com/specopspassword/reset/Reset.aspx
+logfile=/var/log/unlocker.log
+loglevel=info
 
 [user]
 netid=netid
